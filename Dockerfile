@@ -10,6 +10,8 @@ COPY ./Cargo.lock ./Cargo.lock
 COPY ./Cargo.toml ./Cargo.toml
 COPY ./sqlx-data.json ./sqlx-data.json
 COPY ./migrations ./migrations
+# TODO find a way to skip this
+COPY ./tests ./tests
 
 # Build only the dependencies to cache them
 RUN cargo build --release
