@@ -14,7 +14,7 @@ mod extractor;
 mod types;
 
 // Modules introducing API routes.
-mod users;
+pub mod users;
 
 pub use error::{Error, ResultExt};
 

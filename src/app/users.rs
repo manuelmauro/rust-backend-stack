@@ -18,15 +18,15 @@ pub fn router() -> Router<ApiContext, Body> {
 
 /// A wrapper type for all requests/responses from these routes.
 #[derive(serde::Serialize, serde::Deserialize)]
-struct UserBody<T> {
-    user: T,
+pub struct UserBody<T> {
+    pub user: T,
 }
 
-#[derive(serde::Deserialize)]
-struct NewUser {
-    username: String,
-    email: String,
-    password: String,
+#[derive(serde::Deserialize, serde::Serialize)]
+pub struct NewUser {
+    pub username: String,
+    pub email: String,
+    pub password: String,
 }
 
 #[derive(serde::Deserialize)]
