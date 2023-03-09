@@ -184,11 +184,9 @@ async fn hash_password(password: String) -> Result<String> {
     // so we need to do this on a blocking thread.
     tokio::task::spawn_blocking(move || -> Result<String> {
         let salt = SaltString::generate(rand::thread_rng());
-        Ok(
-            PasswordHash::generate(Argon2::default(), password, salt.as_str())
-                .map_err(|e| anyhow::anyhow!("failed to generate password hash: {}", e))?
-                .to_string(),
-        )
+        Ok(PasswordHash::generate(Argon2::default(), password, &salt)
+            .map_err(|e| anyhow::anyhow!("failed to generate password hash: {}", e))?
+            .to_string())
     })
     .await
     .context("panic in generating password hash")?
