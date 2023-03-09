@@ -1,0 +1,118 @@
+{
+  "db": "PostgreSQL",
+  "15496edb22ae3fbf890f9b188114cf24769a86139b47603b21c2a38a37c9b498": {
+    "describe": {
+      "columns": [
+        {
+          "name": "user_id",
+          "ordinal": 0,
+          "type_info": "Uuid"
+        }
+      ],
+      "nullable": [
+        false
+      ],
+      "parameters": {
+        "Left": [
+          "Text",
+          "Text",
+          "Text"
+        ]
+      }
+    },
+    "query": "insert into \"user\" (username, email, password_hash) values ($1, $2, $3) returning user_id"
+  },
+  "535eb52f59d0566ae404250215e2dc0989e89828688ff67e6e8e23de803c7752": {
+    "describe": {
+      "columns": [
+        {
+          "name": "user_id",
+          "ordinal": 0,
+          "type_info": "Uuid"
+        },
+        {
+          "name": "email",
+          "ordinal": 1,
+          "type_info": "Text"
+        },
+        {
+          "name": "username",
+          "ordinal": 2,
+          "type_info": "Text"
+        },
+        {
+          "name": "password_hash",
+          "ordinal": 3,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": [
+          "Text"
+        ]
+      }
+    },
+    "query": "\n            select user_id, email, username, password_hash \n            from \"user\" where email = $1\n        "
+  },
+  "5fe42095aec9a5043364fefcae5ea7abbda6b0137b1d14b75c5539a44fc9fc25": {
+    "describe": {
+      "columns": [
+        {
+          "name": "email",
+          "ordinal": 0,
+          "type_info": "Text"
+        },
+        {
+          "name": "username",
+          "ordinal": 1,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": [
+          "Text",
+          "Text",
+          "Text",
+          "Uuid"
+        ]
+      }
+    },
+    "query": "\n            update \"user\"\n            set email = coalesce($1, \"user\".email),\n                username = coalesce($2, \"user\".username),\n                password_hash = coalesce($3, \"user\".password_hash)\n            where user_id = $4\n            returning email, username\n        "
+  },
+  "95ed4c57521f2917855a598a94458b17ca6e90a4ba880aba42507d6aede77a18": {
+    "describe": {
+      "columns": [
+        {
+          "name": "email",
+          "ordinal": 0,
+          "type_info": "Text"
+        },
+        {
+          "name": "username",
+          "ordinal": 1,
+          "type_info": "Text"
+        }
+      ],
+      "nullable": [
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": [
+          "Uuid"
+        ]
+      }
+    },
+    "query": "select email, username from \"user\" where user_id = $1"
+  }
+}
