@@ -46,21 +46,14 @@ jobs:
   cucumber:
     name: Cucumber Test
     runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: postgres:14
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: password
-          POSTGRES_DB: rust_backend_stack
-        ports:
-          - 5432:5432
     steps:
       - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
         with:
           key: sqlx-${{ env.SQLX_VERSION }}
+      - name: Run the stack
+        run: docker-compose up -d
       - name: Install sqlx-cli
         run:
             cargo install sqlx-cli
