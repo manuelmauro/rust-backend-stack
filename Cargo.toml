@@ -9,7 +9,7 @@ authors = ["Manuel Mauro <manuel.mauro@protonmail.com>"]
 anyhow = "1.0.69"
 argon2 = "0.4.1"
 async-trait = "0.1.64"
-axum = { version = "0.6.9", features = ["tower-log", "macros"] }
+axum = { version = "0.6.10", features = ["tower-log", "macros"] }
 clap = { version = "4.1.6", features = ["derive", "env"] }
 dotenv = "0.15.0"
 env_logger = "0.10.0"
