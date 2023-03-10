@@ -54,20 +54,6 @@ jobs:
           key: sqlx-${{ env.SQLX_VERSION }}
       - name: Docker Compose
         run: docker compose up -d --wait
-      - name: Install sqlx-cli
-        run:
-            cargo install sqlx-cli
-            --version=${{ env.SQLX_VERSION }}
-            --features ${{ env.SQLX_FEATURES }}
-            --no-default-features
-            --locked
-      - name: Migrate database
-        run: |
-          sudo apt-get install libpq-dev -y
-          SKIP_DOCKER=true ./scripts/init_db.sh
-      - name: Check sqlx-data.json is up-to-date
-        run: |
-          cargo sqlx prepare --database-url postgres://postgres:password@localhost:5432/rust_backend_stack --check -- --bin rust-backend-stack
       - name: Run tests
         run: cargo test --test cucumber
 
