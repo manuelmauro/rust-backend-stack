@@ -1,4 +1,4 @@
-name: Rust
+name: Testing, linting, and formatting
 
 on: [push, pull_request]
 
