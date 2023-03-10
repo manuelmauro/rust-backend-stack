@@ -53,7 +53,7 @@ jobs:
         with:
           key: sqlx-${{ env.SQLX_VERSION }}
       - name: Run the stack
-        run: docker-compose up -d
+        run: docker-compose up -d --wait
       - name: Install sqlx-cli
         run:
             cargo install sqlx-cli
