@@ -54,6 +54,14 @@ cargo run
 
 If successful, the API server is now listening at port 8080.
 
+#### Hot Reload
+
+Use [`cargo-watch`](https://crates.io/crates/cargo-watch) for hot reloading the server.
+
+```bash
+cargo watch -x run
+```
+
 ## License
 
 Licensed under MIT license. Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in this crate by you, shall be licensed as above, without any additional terms or conditions.

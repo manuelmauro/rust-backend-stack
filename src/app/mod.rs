@@ -14,6 +14,7 @@ mod extractor;
 mod types;
 
 // Modules introducing API routes.
+pub mod ping;
 pub mod users;
 
 pub use error::{Error, ResultExt};
@@ -47,5 +48,5 @@ pub async fn serve(config: Config, db: PgPool) -> anyhow::Result<()> {
 }
 
 fn api_router() -> Router<ApiContext> {
-    users::router()
+    users::router().merge(ping::router())
 }
