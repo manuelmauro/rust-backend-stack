@@ -7,6 +7,13 @@ pub fn router() -> Router<ApiContext, Body> {
     Router::new().route("/api/ping", get(ping))
 }
 
-async fn ping() -> &'static str {
+#[utoipa::path(
+    get,
+    path = "/api/ping",
+    responses(
+        (status = 200, description = "Pong")
+    )
+)]
+pub(crate) async fn ping() -> &'static str {
     "pong"
 }
