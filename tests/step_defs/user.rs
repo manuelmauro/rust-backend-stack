@@ -1,6 +1,6 @@
 use cucumber::{then, when};
 use reqwest::{self, StatusCode};
-use rust_backend_stack::app::users::{NewUser, UserBody};
+use rust_backend_stack::app::users::schema::{NewUser, UserBody};
 
 use crate::World;
 
