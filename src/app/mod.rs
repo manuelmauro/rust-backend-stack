@@ -3,6 +3,8 @@ use anyhow::Context;
 use axum::{extract::FromRef, Router};
 use sqlx::PgPool;
 use std::sync::Arc;
+use utoipa::OpenApi;
+use utoipa_swagger_ui::SwaggerUi;
 
 /// Defines a common error type to use for all request handlers.
 mod error;
@@ -33,6 +35,10 @@ pub struct ApiContext {
     db: PgPool,
 }
 
+#[derive(OpenApi)]
+#[openapi(paths(ping::ping))]
+struct ApiDoc;
+
 pub async fn serve(config: Config, db: PgPool) -> anyhow::Result<()> {
     let app = api_router()
         .with_state(ApiContext {
@@ -48,5 +54,7 @@ pub async fn serve(config: Config, db: PgPool) -> anyhow::Result<()> {
 }
 
 fn api_router() -> Router<ApiContext> {
-    users::router().merge(ping::router())
+    users::router()
+        .merge(ping::router())
+        .merge(SwaggerUi::new("/swagger-ui").url("/api-doc/swagger.json", ApiDoc::openapi()))
 }
