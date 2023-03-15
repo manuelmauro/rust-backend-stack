@@ -1,53 +1,24 @@
+use self::schema::{LoginUser, NewUser, UpdateUser, User, UserBody};
+use self::utils::{hash_password, verify_password};
 use crate::app::error::{Error, ResultExt};
 use crate::app::extractor::AuthUser;
 use crate::app::{ApiContext, Result};
-use anyhow::Context;
-use argon2::password_hash::SaltString;
-use argon2::{Argon2, PasswordHash};
 use axum::body::Body;
 use axum::extract::State;
 use axum::routing::{get, post};
 use axum::{Json, Router};
 
-pub fn router() -> Router<ApiContext, Body> {
+/// All request/response schemas
+pub mod schema;
+
+/// Authentication utils
+pub mod utils;
+
+pub(crate) fn router() -> Router<ApiContext, Body> {
     Router::new()
         .route("/api/users", post(create_user))
         .route("/api/users/login", post(login_user))
         .route("/api/user", get(get_current_user).put(update_user))
-}
-
-/// A wrapper type for all requests/responses from these routes.
-#[derive(serde::Serialize, serde::Deserialize)]
-pub struct UserBody<T> {
-    pub user: T,
-}
-
-#[derive(serde::Deserialize, serde::Serialize)]
-pub struct NewUser {
-    pub username: String,
-    pub email: String,
-    pub password: String,
-}
-
-#[derive(serde::Deserialize)]
-struct LoginUser {
-    email: String,
-    password: String,
-}
-
-#[derive(serde::Deserialize, Default, PartialEq, Eq)]
-#[serde(default)]
-struct UpdateUser {
-    email: Option<String>,
-    username: Option<String>,
-    password: Option<String>,
-}
-
-#[derive(serde::Serialize, serde::Deserialize)]
-struct User {
-    email: String,
-    token: String,
-    username: String,
 }
 
 async fn create_user(
@@ -177,32 +148,4 @@ async fn update_user(
             username: user.username,
         },
     }))
-}
-
-async fn hash_password(password: String) -> Result<String> {
-    // Argon2 hashing is designed to be computationally intensive,
-    // so we need to do this on a blocking thread.
-    tokio::task::spawn_blocking(move || -> Result<String> {
-        let salt = SaltString::generate(rand::thread_rng());
-        Ok(PasswordHash::generate(Argon2::default(), password, &salt)
-            .map_err(|e| anyhow::anyhow!("failed to generate password hash: {}", e))?
-            .to_string())
-    })
-    .await
-    .context("panic in generating password hash")?
-}
-
-async fn verify_password(password: String, password_hash: String) -> Result<()> {
-    tokio::task::spawn_blocking(move || -> Result<()> {
-        let hash = PasswordHash::new(&password_hash)
-            .map_err(|e| anyhow::anyhow!("invalid password hash: {}", e))?;
-
-        hash.verify_password(&[&Argon2::default()], password)
-            .map_err(|e| match e {
-                argon2::password_hash::Error::Password => Error::Unauthorized,
-                _ => anyhow::anyhow!("failed to verify password hash: {}", e).into(),
-            })
-    })
-    .await
-    .context("panic in verifying password hash")?
 }

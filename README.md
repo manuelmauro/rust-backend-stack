@@ -62,6 +62,46 @@ Use [`cargo-watch`](https://crates.io/crates/cargo-watch) for hot reloading the 
 cargo watch -x run
 ```
 
+## Quality Assurance
+
+### Testing
+
+Run unit tests with:
+
+```bash
+cargo test
+```
+
+Run behavioral tests with:
+
+```bash
+cargo test --test cucumber
+```
+
+### Formatting
+
+Format with:
+
+```bash
+cargo fmt --check
+```
+
+### Linting
+
+Lint with:
+
+```bash
+cargo clippy -- -D warnings
+```
+
+### Code Coverage
+
+Check code coverage:
+
+```bash
+cargo tarpaulin --verbose --workspace
+```
+
 ## License
 
 Licensed under MIT license. Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in this crate by you, shall be licensed as above, without any additional terms or conditions.
