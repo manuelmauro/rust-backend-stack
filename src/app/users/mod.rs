@@ -8,11 +8,13 @@ use axum::extract::State;
 use axum::routing::{get, post};
 use axum::{Json, Router};
 
+/// All request/response schemas
 pub mod schema;
 
+/// Authentication utils
 pub mod utils;
 
-pub fn router() -> Router<ApiContext, Body> {
+pub(crate) fn router() -> Router<ApiContext, Body> {
     Router::new()
         .route("/api/users", post(create_user))
         .route("/api/users/login", post(login_user))
