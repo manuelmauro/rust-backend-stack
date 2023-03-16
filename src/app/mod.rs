@@ -3,6 +3,7 @@ use anyhow::Context;
 use axum::{extract::FromRef, Router};
 use sqlx::PgPool;
 use std::sync::Arc;
+use tower_http::trace::TraceLayer;
 use utoipa::{
     openapi::security::{HttpAuthScheme, HttpBuilder, SecurityScheme},
     Modify, OpenApi,
@@ -25,8 +26,6 @@ pub mod users;
 pub use error::{Error, ResultExt};
 
 pub type Result<T, E = Error> = std::result::Result<T, E>;
-
-use tower_http::trace::TraceLayer;
 
 /// The core type through which handler functions can access common API state.
 ///
