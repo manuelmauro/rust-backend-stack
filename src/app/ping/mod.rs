@@ -11,7 +11,7 @@ pub fn router() -> Router<ApiContext, Body> {
     get,
     path = "/api/ping",
     responses(
-        (status = 200, description = "Pong")
+        (status = 200, description = "Pong.")
     )
 )]
 pub(crate) async fn ping() -> &'static str {
