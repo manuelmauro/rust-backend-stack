@@ -3,7 +3,10 @@ use anyhow::Context;
 use axum::{extract::FromRef, Router};
 use sqlx::PgPool;
 use std::sync::Arc;
-use utoipa::OpenApi;
+use utoipa::{
+    openapi::security::{HttpAuthScheme, HttpBuilder, SecurityScheme},
+    Modify, OpenApi,
+};
 use utoipa_swagger_ui::SwaggerUi;
 
 /// Defines a common error type to use for all request handlers.
@@ -36,8 +39,45 @@ pub struct ApiContext {
 }
 
 #[derive(OpenApi)]
-#[openapi(paths(ping::ping))]
+#[openapi(
+    paths(
+        ping::ping,
+        users::create_user,
+        users::login_user,
+        users::get_current_user,
+        users::update_user
+    ),
+    components(schemas(
+        users::schema::NewUserBody,
+        users::schema::NewUser,
+        users::schema::LoginUserBody,
+        users::schema::LoginUser,
+        users::schema::UpdateUserBody,
+        users::schema::UpdateUser,
+        users::schema::UserResponse,
+        users::schema::User,
+    )),
+    modifiers(&SecurityAddon),
+)]
 struct ApiDoc;
+
+struct SecurityAddon;
+
+impl Modify for SecurityAddon {
+    fn modify(&self, openapi: &mut utoipa::openapi::OpenApi) {
+        if let Some(components) = openapi.components.as_mut() {
+            components.add_security_scheme(
+                "api_key",
+                SecurityScheme::Http(
+                    HttpBuilder::new()
+                        .scheme(HttpAuthScheme::Bearer)
+                        .bearer_format("JWT")
+                        .build(),
+                ),
+            )
+        }
+    }
+}
 
 pub async fn serve(config: Config, db: PgPool) -> anyhow::Result<()> {
     let app = api_router()

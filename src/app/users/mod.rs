@@ -21,6 +21,14 @@ pub(crate) fn router() -> Router<ApiContext, Body> {
         .route("/api/user", get(get_current_user).put(update_user))
 }
 
+#[utoipa::path(
+    post,
+    path = "/api/users",
+    request_body = NewUserBody,
+    responses(
+        (status = 200, description = "Register a new user.", body = UserResponse)
+    )
+)]
 async fn create_user(
     State(ctx): State<ApiContext>,
     Json(req): Json<UserBody<NewUser>>,
@@ -51,6 +59,14 @@ async fn create_user(
     }))
 }
 
+#[utoipa::path(
+    post,
+    path = "/api/users/login",
+    request_body = LoginUserBody,
+    responses(
+        (status = 200, description = "Login with an existing user.", body = UserResponse)
+    )
+)]
 async fn login_user(
     State(ctx): State<ApiContext>,
     Json(req): Json<UserBody<LoginUser>>,
@@ -80,6 +96,16 @@ async fn login_user(
     }))
 }
 
+#[utoipa::path(
+    get,
+    path = "/api/user",
+    security(
+        ("api_key" = [])
+    ),
+    responses(
+        (status = 200, description = "Get the currently logged-in user.", body = UserResponse)
+    )
+)]
 async fn get_current_user(
     auth_user: AuthUser,
     State(ctx): State<ApiContext>,
@@ -100,6 +126,17 @@ async fn get_current_user(
     }))
 }
 
+#[utoipa::path(
+    put,
+    path = "/api/user",
+    request_body = UpdateUserBody,
+    security(
+        ("api_key" = [])
+    ),
+    responses(
+        (status = 200, description = "Update information on the currently logged-in user.", body = UserResponse)
+    )
+)]
 async fn update_user(
     auth_user: AuthUser,
     State(ctx): State<ApiContext>,
