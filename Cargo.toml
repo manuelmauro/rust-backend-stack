@@ -21,7 +21,7 @@ log = "0.4.17"
 rand = "0.8.5"
 serde = { version = "1.0.158", features = ["derive"] }
 sha2 = "0.10.6"
-sqlx = { version = "0.6.2", features = [
+sqlx = { version = "0.6.3", features = [
     "offline",
     "runtime-tokio-native-tls",
     "postgres",
