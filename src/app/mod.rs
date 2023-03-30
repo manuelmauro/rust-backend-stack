@@ -95,5 +95,5 @@ pub async fn serve(config: Config, db: PgPool) -> anyhow::Result<()> {
 fn api_router() -> Router<ApiContext> {
     users::router()
         .merge(ping::router())
-        .merge(SwaggerUi::new("/swagger-ui").url("/api-doc/swagger.json", ApiDoc::openapi()))
+        .merge(SwaggerUi::new("/docs").url("/docs/swagger.json", ApiDoc::openapi()))
 }
