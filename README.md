@@ -78,6 +78,12 @@ Run behavioral tests with:
 cargo test --test cucumber
 ```
 
+Output `World` on fail with:
+
+```bash
+cargo test --test cucumber -- -vv
+```
+
 ### Formatting
 
 Format with:

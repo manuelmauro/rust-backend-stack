@@ -12,6 +12,6 @@ struct World {
 async fn main() {
     World::cucumber()
         .max_concurrent_scenarios(1)
-        .run("tests/features/user.feature")
+        .run_and_exit("tests/features/user.feature")
         .await;
 }
