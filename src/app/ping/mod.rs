@@ -14,6 +14,6 @@ pub fn router() -> Router<ApiContext, Body> {
         (status = 200, description = "Pong.")
     )
 )]
-pub(crate) async fn ping() -> &'static str {
+async fn ping() -> &'static str {
     "pong"
 }
