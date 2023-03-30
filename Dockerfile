@@ -1,5 +1,5 @@
 # Rust as the base image
-FROM rust:1.67 as build
+FROM rust:1.68 as build
 
 # Create a new empty shell project
 RUN USER=root cargo new --bin rust-backend-stack
@@ -26,7 +26,7 @@ RUN cargo build --release
 
 # TODO use a smaller image
 # The final base image
-FROM rust:1.67
+FROM rust:1.68
 
 # Copy from the previous build
 COPY --from=build /rust-backend-stack/target/release/rust-backend-stack /usr/src/rust-backend-stack
