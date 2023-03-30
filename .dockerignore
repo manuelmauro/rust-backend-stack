@@ -2,7 +2,6 @@
 .dockerignore
 target/
 deploy/
-tests/
+# tests/ TODO add back when the Dockerfile is fixed
 Dockerfile
 scripts/
-migrations/
