@@ -9,7 +9,7 @@ env:
 
 jobs:
   test:
-    name: Test
+    name: Cargo Test
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -58,7 +58,7 @@ jobs:
         run: cargo test --test cucumber
 
   fmt:
-    name: Rust fmt
+    name: Cargo fmt
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
