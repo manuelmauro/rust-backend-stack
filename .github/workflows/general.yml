@@ -1,4 +1,4 @@
-name: Testing, linting, and formatting
+name: Rust
 
 on: 
   push:
