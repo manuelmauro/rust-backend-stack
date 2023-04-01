@@ -58,7 +58,7 @@ jobs:
         run: cargo test --test cucumber
 
   fmt:
-    name: Rustfmt
+    name: Rust fmt
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
