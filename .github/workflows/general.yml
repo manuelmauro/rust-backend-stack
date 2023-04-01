@@ -1,6 +1,9 @@
 name: Testing, linting, and formatting
 
-on: [push, pull_request]
+on: 
+  push:
+  schedule:
+    - cron: '0 0 * * MON'
 
 env:
   CARGO_TERM_COLOR: always
