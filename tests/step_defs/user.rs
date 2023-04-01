@@ -26,9 +26,7 @@ async fn register(w: &mut World, username: String, email: String, password: Stri
 #[then("either the user exists or a new user is created")]
 async fn user_existing_or_registered(w: &mut World) {
     if let Some(status) = &w.status {
-        assert!(
-            *status == StatusCode::OK || *status == StatusCode::UNPROCESSABLE_ENTITY
-        );
+        assert!(*status == StatusCode::OK || *status == StatusCode::UNPROCESSABLE_ENTITY);
     }
 }
 
