@@ -1,11 +1,14 @@
 use cucumber::World as _;
-use reqwest::Response;
+use reqwest::StatusCode;
 
 mod step_defs;
 
-#[derive(cucumber::World, Debug, Default)]
+#[derive(cucumber::World, Clone, Debug, Default)]
 struct World {
-    response: Option<Response>,
+    status: Option<StatusCode>,
+    email: Option<String>,
+    username: Option<String>,
+    token: Option<String>,
 }
 
 #[tokio::main]

@@ -1,6 +1,9 @@
 name: Testing, linting, and formatting
 
-on: [push, pull_request]
+on: 
+  push:
+  schedule:
+    - cron: '0 0 * * MON'
 
 env:
   CARGO_TERM_COLOR: always
@@ -9,7 +12,7 @@ env:
 
 jobs:
   test:
-    name: Test
+    name: cargo-test
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -44,7 +47,7 @@ jobs:
         run: cargo test
 
   cucumber:
-    name: Cucumber Test
+    name: cucumber-test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -58,7 +61,7 @@ jobs:
         run: cargo test --test cucumber
 
   fmt:
-    name: Rustfmt
+    name: cargo-fmt
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -69,7 +72,7 @@ jobs:
         run: cargo fmt --check
 
   clippy:
-    name: Clippy
+    name: clippy
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -103,7 +106,7 @@ jobs:
         run: cargo clippy -- -D warnings
 
   coverage:
-    name: Code coverage
+    name: cargo-tarpaulin
     runs-on: ubuntu-latest
     services:
       postgres:
