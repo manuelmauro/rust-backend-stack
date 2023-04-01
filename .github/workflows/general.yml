@@ -9,7 +9,7 @@ env:
 
 jobs:
   test:
-    name: Cargo Test
+    name: cargo-test
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -44,7 +44,7 @@ jobs:
         run: cargo test
 
   cucumber:
-    name: Cucumber Test
+    name: cucumber-test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -58,7 +58,7 @@ jobs:
         run: cargo test --test cucumber
 
   fmt:
-    name: Cargo fmt
+    name: cargo-fmt
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -69,7 +69,7 @@ jobs:
         run: cargo fmt --check
 
   clippy:
-    name: Clippy
+    name: clippy
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -103,7 +103,7 @@ jobs:
         run: cargo clippy -- -D warnings
 
   coverage:
-    name: Code coverage
+    name: cargo-tarpaulin
     runs-on: ubuntu-latest
     services:
       postgres:
