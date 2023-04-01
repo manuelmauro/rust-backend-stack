@@ -19,7 +19,7 @@ pub struct NewUser {
     pub password: String,
 }
 
-#[derive(serde::Deserialize, ToSchema)]
+#[derive(serde::Deserialize, serde::Serialize, ToSchema)]
 pub struct LoginUser {
     pub email: String,
     pub password: String,
